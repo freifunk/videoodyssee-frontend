@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/videoodyssee-frontend/static/css/main.073c9b0a.css",
-    "main.js": "/videoodyssee-frontend/static/js/main.80b316a9.js",
+    "main.css": "/videoodyssee-frontend/static/css/main.1474fb92.css",
+    "main.js": "/videoodyssee-frontend/static/js/main.f595097f.js",
     "static/js/787.b0c69ff2.chunk.js": "/videoodyssee-frontend/static/js/787.b0c69ff2.chunk.js",
+    "static/media/logo-small.png": "/videoodyssee-frontend/static/media/logo-small.f053f05f5157abd0bb89.png",
     "index.html": "/videoodyssee-frontend/index.html",
-    "main.073c9b0a.css.map": "/videoodyssee-frontend/static/css/main.073c9b0a.css.map",
-    "main.80b316a9.js.map": "/videoodyssee-frontend/static/js/main.80b316a9.js.map",
+    "main.1474fb92.css.map": "/videoodyssee-frontend/static/css/main.1474fb92.css.map",
+    "main.f595097f.js.map": "/videoodyssee-frontend/static/js/main.f595097f.js.map",
     "787.b0c69ff2.chunk.js.map": "/videoodyssee-frontend/static/js/787.b0c69ff2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.80b316a9.js"
+    "static/css/main.1474fb92.css",
+    "static/js/main.f595097f.js"
   ]
 }
