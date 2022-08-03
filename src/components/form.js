@@ -4,40 +4,83 @@ import {
   TextField,
   Select,
   MenuItem,
-  Chip,
   FormControl,
   Autocomplete,
-  InputLabel
+  InputLabel,
+  Button
 } from '@mui/material';
 
 import './styles/form.css'
+import logo from '../assets/logo-small.png';
+import { useState } from 'react';
 
 
+const initialValues = {
+  title: "",
+  subtitle: "",
+  persons: [],
+  tags: [],
+  event: "Wireless Community Weekend 2017",
+  language: "Russian",
+  date: new Date().toISOString().split('T')[0],
+  url: "",
+  name: "",
+  email: "",
+  link: "",
+  description: ""
+};
 
 
 const Form = () => {
-  let event = 'Wireless Community Weekend 2017';
-  let language = 'Russian';
 
-  const paperStyle = {
-    padding: 20,
-    width: 330,
-    height: '120vh',
-    margin: '20px auto'
-  }
+  const [values, setValues] = useState(initialValues);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name,value,values.persons);
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(values);
+  };
+
+
+
+
   return (
     <Grid>
-      <Paper elevation={10} style={paperStyle}>
-        <img src="https://videoodyssee.freifunk.net/pics/logo-small.png" alt='Friefunk logo' />
+      <Paper elevation={10} className="paper">
+        <img src={logo} alt='Friefunk logo' />
         <h2 align='center'>Video Upload </h2>
         <p>
-          <FormControl fullWidth className='input-field'>
-            <TextField id="outlined-basic" label="Title" variant="outlined" size='small' />
+          <FormControl fullWidth >
+            <TextField
+              value={values.title}
+              name="title"
+              onChange={handleInputChange}
+              id="outlined-basic"
+              label="Title"
+              variant="outlined"
+              size='small'
+            />
           </FormControl>
         </p>
         <p>
-          <FormControl fullWidth className='input-field'>
-            <TextField id="outlined-basic" label="Subtitle" variant="outlined" size='small' />
+          <FormControl fullWidth >
+            <TextField
+              value={values.subtitle}
+              name="subtitle"
+              onChange={handleInputChange}
+              id="outlined-basic"
+              label="Subtitle"
+              variant="outlined"
+              size='small'
+            />
 
           </FormControl>
         </p>
@@ -45,9 +88,10 @@ const Form = () => {
         <p>
           <FormControl fullWidth >
             <Autocomplete
-              className='input-field'
+
               multiple
-              id="combo-box-demo"
+              id="persons"
+              onChange={handleInputChange}
               options={[]}
               freeSolo
               size='small'
@@ -59,9 +103,10 @@ const Form = () => {
         <p>
           <FormControl fullWidth >
             <Autocomplete
-              className='input-field'
+
               multiple
-              id="combo-box-demo"
+              id="tags"
+              onChange={handleInputChange}
               options={[]}
               freeSolo
               size='small'
@@ -71,117 +116,137 @@ const Form = () => {
         </p>
 
         <p>
-        <FormControl fullWidth >
-          <InputLabel id="event-select-label">Event</InputLabel>
-          <Select
-            className='input-field'
-            labelId="event-select-label"
-            id="demo-simple-select"
-            value={event}
-            label="Event"
-            size='small'
-          >
-            <MenuItem value={'Wireless Meshup'}>Wireless Meshup</MenuItem>
-            <MenuItem value={'Wireless Community Weekend 2017'}>Wireless Community Weekend 2017</MenuItem>
-            <MenuItem value={'Friefunk Festival 2017'}>Friefunk Festival 2017</MenuItem>
-          </Select>
-        </FormControl>
-        </p>
-        
-          <p>
           <FormControl fullWidth >
-          <InputLabel id="lang-select-label">Language</InputLabel>
-          <Select
-            className='input-field'
-            labelId="lang-select-label"
-            id="demo-simple-select"
-            value={language}
-            label="Language"
-            size='small'
-          >
-            <MenuItem value={'Russian'}>Russian</MenuItem>
-            <MenuItem value={'French'}>French</MenuItem>
-            <MenuItem value={'Spanish'}>Spanish</MenuItem>
-            <MenuItem value={'German'}>German</MenuItem>
-            <MenuItem value={'Japaneese'}>Japaneese</MenuItem>
-            <MenuItem value={'English'}>English</MenuItem>
-          </Select>
-        </FormControl>
-          </p>
-       
-        <p>
-        <FormControl fullWidth >
-          <TextField
-            className='input-field'
-            id="date"
-            label="Date"
-            type="date"
-            defaultValue="2017-05-24"
-            size='small'
-
-          />
-        </FormControl>
-
-        </p>
-        
-        <p>
-        <FormControl fullWidth >
-          <TextField
-            className='input-field'
-            id="url"
-            label="Video URL"
-            type='url'
-            size='small'
-          />
-        </FormControl>
+            <InputLabel id="event-select-label">Event</InputLabel>
+            <Select
+              labelId="event-select-label"
+              id="event"
+              name="event"
+              value={values.event}
+              onChange={handleInputChange}
+              label="Event"
+              size='small'
+            >
+              <MenuItem value={'Wireless Meshup'}>Wireless Meshup</MenuItem>
+              <MenuItem value={'Wireless Community Weekend 2017'}>Wireless Community Weekend 2017</MenuItem>
+              <MenuItem value={'Friefunk Festival 2017'}>Friefunk Festival 2017</MenuItem>
+            </Select>
+          </FormControl>
         </p>
 
         <p>
-        <FormControl fullWidth >
-          <TextField
-            className='input-field'
-            id="name"
-            label="Name"
-            size='small'
-          />
-        </FormControl>
+          <FormControl fullWidth >
+            <InputLabel id="lang-select-label">Language</InputLabel>
+            <Select
+              labelId="lang-select-label"
+              id="language"
+              name="language"
+              value={values.language}
+              onChange={handleInputChange}
+              label="Language"
+              size='small'
+            >
+              <MenuItem value={'Russian'}>Russian</MenuItem>
+              <MenuItem value={'French'}>French</MenuItem>
+              <MenuItem value={'Spanish'}>Spanish</MenuItem>
+              <MenuItem value={'German'}>German</MenuItem>
+              <MenuItem value={'Japaneese'}>Japaneese</MenuItem>
+              <MenuItem value={'English'}>English</MenuItem>
+            </Select>
+          </FormControl>
+        </p>
+
+        <p>
+          <FormControl fullWidth >
+            <TextField
+              value={values.date}
+              name="date"
+              onChange={handleInputChange}
+              id="date"
+              label="Date"
+              type="date"
+              size='small'
+
+            />
+          </FormControl>
+
+        </p>
+
+        <p>
+          <FormControl fullWidth >
+            <TextField
+              value={values.url}
+              onChange={handleInputChange}
+              name="url"
+              id="url"
+              label="Video URL"
+              type='url'
+              size='small'
+            />
+          </FormControl>
+        </p>
+
+        <p>
+          <FormControl fullWidth >
+            <TextField
+              value={values.name}
+              onChange={handleInputChange}
+              name="name"
+              id="name"
+              label="Name"
+              size='small'
+            />
+          </FormControl>
         </p>
 
 
         <p>
-        <FormControl fullWidth >
-          <TextField
-            className='input-field'
-            id="email"
-            label="Email"
-            type="email"
-            size='small'
-          />
-        </FormControl>
+          <FormControl fullWidth >
+            <TextField
+              value={values.email}
+              onChange={handleInputChange}
+              name="email"
+              id="email"
+              label="Email"
+              type="email"
+              size='small'
+            />
+          </FormControl>
         </p>
 
         <p>
-        <FormControl fullWidth >
-          <TextField
-            className='input-field'
-            id="link"
-            label="Link"
+          <FormControl fullWidth >
+            <TextField
+              value={values.link}
+              onChange={handleInputChange}
+              name="link"
+              id="link"
+              label="Link"
 
-            size='small'
-          />
-        </FormControl>
+              size='small'
+            />
+          </FormControl>
         </p>
 
         <p>
-        <FormControl fullWidth >
-          <TextField
-            className='input-field'
-            id="description"
-            label="Description"
-            size='small'
-          />
-        </FormControl>
+          <FormControl fullWidth >
+            <TextField
+              value={values.description}
+              onChange={handleInputChange}
+              name="description"
+              id="description"
+              label="Description"
+              size='small'
+              multiline
+            />
+          </FormControl>
         </p>
+        <FormControl fullWidth >
+          <Button variant="contained" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </FormControl>
+
       </Paper>
 
     </Grid>
@@ -189,4 +254,3 @@ const Form = () => {
 }
 
 export default Form;
-
