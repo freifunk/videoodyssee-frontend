@@ -54,7 +54,7 @@ const Form = () => {
     event.preventDefault();
     console.log("called");
     try {
-      let res = await fetch("https://videopipeline.freifunk.net:8080", {
+      let res = await fetch("https://videopipeline.freifunk.net:8080/pipeline/trigger", {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
