@@ -7,8 +7,12 @@ import {
   FormControl,
   Autocomplete,
   InputLabel,
-  Button
+  Button,
+  Alert,
+  Snackbar,
+
 } from '@mui/material';
+
 
 import './styles/form.css'
 import logo from '../assets/logo-small.png';
@@ -34,19 +38,40 @@ const initialValues = {
 const Form = () => {
 
   const [values, setValues] = useState(initialValues);
+  const [err, setErr] = useState({ err: false, message: '' });
+  const [success, setSuccess] = useState({ success: false, message: '' });
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name,value,values.persons);
     setValues({
       ...values,
       [name]: value,
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(values);
+    console.log("called");
+    try {
+      let res = await fetch("https://videopipeline.freifunk.net:8080", {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(values),
+      });
+      let resJson = await res.json();
+      if (res.status === 202) {
+        setSuccess({ success: true, message: 'Video submitted Successfully' })
+      } else {
+        setErr({ err: true, message: resJson.message })
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
   };
 
 
@@ -54,6 +79,29 @@ const Form = () => {
 
   return (
     <Grid>
+
+      <Snackbar
+        open={success.success}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        autoHideDuration={6000}
+        onClose={() => setSuccess({ success: false })}
+      >
+        <Alert onClose={() => setSuccess({ success: false })} severity="success" sx={{ width: '100%' }}>
+          {success.message}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={err.err}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        autoHideDuration={6000}
+        onClose={() => setErr({ err: false })}
+      >
+        <Alert onClose={() => setErr({ err: false })} severity="error" sx={{ width: '100%' }}>
+          {err.message}
+        </Alert>
+      </Snackbar>
+
       <Paper elevation={10} className="paper">
         <img src={logo} alt='Friefunk logo' />
         <h2 align='center'>Video Upload </h2>
@@ -67,6 +115,7 @@ const Form = () => {
               label="Title"
               variant="outlined"
               size='small'
+              autoFocus
             />
           </FormControl>
         </p>
