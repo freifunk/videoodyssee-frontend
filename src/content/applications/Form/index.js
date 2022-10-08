@@ -14,7 +14,7 @@ import {
   } from '@mui/material';
   
   import './styles.css'
-  import { useState } from 'react';
+  import { useState , useEffect } from 'react';
   
   
   const initialValues = {
@@ -22,7 +22,7 @@ import {
     subtitle: "",
     persons: [],
     tags: [],
-    event: "Wireless Community Weekend 2017",
+    conference: "",
     language: "Russian",
     date: new Date().toISOString().split('T')[0],
     url: "",
@@ -38,6 +38,7 @@ import {
     const [values, setValues] = useState(initialValues);
     const [err, setErr] = useState({ err: false, message: '' });
     const [success, setSuccess] = useState({ success: false, message: '' });
+    const [conferences,setConferences] = useState([]);
   
   
     const handleInputChange = (e) => {
@@ -72,6 +73,27 @@ import {
       }
   
     };
+
+    useEffect(() => {
+      const getConferences = async () => {
+        try {
+          let res = await fetch(`${process.env.REACT_APP_VOCTOWEB_API_URL}/public/conferences`, {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            }
+          })
+          let resJson = await res.json();
+          setConferences(resJson.conferences);
+          setValues({...values,conference:resJson.conferences[0].acronym});
+        }
+        catch (err) {
+          console.log(err);
+        }
+      }
+      getConferences();
+  
+    },[])
   
   
     return (
@@ -164,21 +186,22 @@ import {
   
           <p>
             <FormControl fullWidth >
-              <InputLabel id="event-select-label">Event</InputLabel>
+              <InputLabel id="event-select-label">Conference</InputLabel>
               <Select
                 labelId="event-select-label"
-                id="event"
-                name="event"
-                value={values.event}
+                id="conference"
+                name="conference"
+                value={values.conference}
                 onChange={handleInputChange}
-                label="Event"
+                label="Conference"
                 size='small'
               >
-                <MenuItem value={'Wireless Meshup'}>Wireless Meshup</MenuItem>
+                {/* <MenuItem value={'Wireless Meshup'}>Wireless Meshup</MenuItem>
                 <MenuItem value={'Wireless Community Weekend 2017'}>Wireless Community Weekend 2017</MenuItem>
-                <MenuItem value={'Friefunk Festival 2017'}>Friefunk Festival 2017</MenuItem>
+                <MenuItem value={'Friefunk Festival 2017'}>Friefunk Festival 2017</MenuItem> */}
+                {conferences.map(({ acronym, title }, index) => <MenuItem value={acronym}>{title}</MenuItem>)}
               </Select>
-            </FormControl>
+            </FormControl> 
           </p>
   
           <p>
