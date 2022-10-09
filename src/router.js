@@ -15,7 +15,7 @@ const Loader = (Component) => (props) =>
 
 
 
-const Crypto = Loader(lazy(() => import('src/content/dashboards/Crypto')));
+// const Crypto = Loader(lazy(() => import('src/content/dashboards/Crypto')));
 
 const Transactions = Loader(
   lazy(() => import('src/content/applications/Transactions'))
@@ -48,10 +48,6 @@ const routes = [
         element: <Form />
       },
       {
-        path: 'overview',
-        element: <Navigate to="/" replace />
-      },
-      {
         path: 'status',
         children: [
           {
@@ -71,16 +67,12 @@ const routes = [
     ]
   },
   {
-    path: 'dashboards',
+    path: 'dashboard',
     element: <SidebarLayout />,
     children: [
       {
         path: '',
         element: <Navigate to="tasks" replace />
-      },
-      {
-        path: 'crypto',
-        element: <Crypto />
       },
     ]
   },

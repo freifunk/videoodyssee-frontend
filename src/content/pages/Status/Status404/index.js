@@ -1,17 +1,11 @@
 import {
   Box,
-  Card,
   Typography,
   Container,
-  Divider,
   Button,
-  FormControl,
-  OutlinedInput,
-  InputAdornment,
   styled
 } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
-import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 
 const MainContent = styled(Box)(
   () => `
@@ -25,17 +19,6 @@ const MainContent = styled(Box)(
 `
 );
 
-const OutlinedInputWrapper = styled(OutlinedInput)(
-  ({ theme }) => `
-    background-color: ${theme.colors.alpha.white[100]};
-`
-);
-
-const ButtonSearch = styled(Button)(
-  ({ theme }) => `
-    margin-right: -${theme.spacing(1)};
-`
-);
 
 function Status404() {
   return (
@@ -54,7 +37,7 @@ function Status404() {
             Oops! Looks like you followed a bad link. If you think this is a problem with us, please tell us.
             </Typography>
             <br/>
-            <Button href="/overview" variant="outlined">
+            <Button href="/" variant="outlined">
                 Go to homepage
               </Button>
           </Box>
