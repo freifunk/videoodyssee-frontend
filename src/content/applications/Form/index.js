@@ -48,6 +48,13 @@ import {
         [name]: value,
       });
     };
+
+    const handleAutocompleteInputChange = (name,value) => {
+      setValues({
+        ...values,
+        [name]: value,
+      });
+    };
   
     const handleSubmit = async (event) => {
       event.preventDefault();
@@ -160,7 +167,7 @@ import {
   
                 multiple
                 id="persons"
-                onChange={handleInputChange}
+                onChange={(event, value) => handleAutocompleteInputChange('persons',value)}
                 options={[]}
                 freeSolo
                 size='small'
@@ -175,7 +182,7 @@ import {
   
                 multiple
                 id="tags"
-                onChange={handleInputChange}
+                onChange={(event, value) => handleAutocompleteInputChange('tags',value)}
                 options={[]}
                 freeSolo
                 size='small'
@@ -196,9 +203,6 @@ import {
                 label="Conference"
                 size='small'
               >
-                {/* <MenuItem value={'Wireless Meshup'}>Wireless Meshup</MenuItem>
-                <MenuItem value={'Wireless Community Weekend 2017'}>Wireless Community Weekend 2017</MenuItem>
-                <MenuItem value={'Friefunk Festival 2017'}>Friefunk Festival 2017</MenuItem> */}
                 {conferences.map(({ acronym, title }, index) => <MenuItem value={acronym}>{title}</MenuItem>)}
               </Select>
             </FormControl> 
