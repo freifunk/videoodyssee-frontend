@@ -17,7 +17,6 @@ import {
   styled
 } from '@mui/material';
 
-import InboxTwoToneIcon from '@mui/icons-material/InboxTwoTone';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
@@ -57,6 +56,11 @@ const UserBoxDescription = styled(Typography)(
         color: ${lighten(theme.palette.secondary.main, 0.5)}
 `
 );
+
+const logout = () => {
+  localStorage.clear();
+  window.location.href =  "/dashboard/login";
+}
 
 function HeaderUserbox() {
   const user = {
@@ -116,17 +120,13 @@ function HeaderUserbox() {
         </MenuUserBox>
         <Divider sx={{ mb: 0 }} />
         <List sx={{ p: 1 }} component="nav">
-          <ListItem button to="/management/profile/details" component={NavLink}>
+          <ListItem button to="/dashboard/profile/details" component={NavLink}>
             <AccountBoxTwoToneIcon fontSize="small" />
             <ListItemText primary="My Profile" />
           </ListItem>
-          <ListItem button to="/dashboards/messenger" component={NavLink}>
-            <InboxTwoToneIcon fontSize="small" />
-            <ListItemText primary="Messenger" />
-          </ListItem>
           <ListItem
             button
-            to="/management/profile/settings"
+            to="/dashboard/profile/settings"
             component={NavLink}
           >
             <AccountTreeTwoToneIcon fontSize="small" />
@@ -135,7 +135,11 @@ function HeaderUserbox() {
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button
+            color="primary"
+            onClick={logout}
+            fullWidth
+          >
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Sign out
           </Button>

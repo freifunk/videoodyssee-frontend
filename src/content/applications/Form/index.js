@@ -15,6 +15,7 @@ import {
   
   import './styles.css'
   import { useState , useEffect } from 'react';
+  import Footer from 'src/components/Footer';
   
   
   const initialValues = {
@@ -23,7 +24,7 @@ import {
     persons: [],
     tags: [],
     conference: "",
-    language: "Russian",
+    language: "eng",
     date: new Date().toISOString().split('T')[0],
     url: "",
     name: "",
@@ -220,12 +221,14 @@ import {
                 label="Language"
                 size='small'
               >
-                <MenuItem value={'Russian'}>Russian</MenuItem>
-                <MenuItem value={'French'}>French</MenuItem>
-                <MenuItem value={'Spanish'}>Spanish</MenuItem>
-                <MenuItem value={'German'}>German</MenuItem>
-                <MenuItem value={'Japaneese'}>Japaneese</MenuItem>
-                <MenuItem value={'English'}>English</MenuItem>
+                <MenuItem value={'eng'}>English</MenuItem>
+                <MenuItem value={'deu'}>German</MenuItem>
+                <MenuItem value={'rus'}>Russian</MenuItem>
+                <MenuItem value={'fra'}>French</MenuItem>
+                <MenuItem value={'spa'}>Spanish</MenuItem>
+                <MenuItem value={'jpn'}>Japaneese</MenuItem>
+                <MenuItem value={'hin'}>Hindi</MenuItem>
+               
               </Select>
             </FormControl>
           </p>
@@ -320,9 +323,7 @@ import {
               Submit
             </Button>
           </FormControl>
-  
         </Paper>
-  
       </Grid>
     )
   }

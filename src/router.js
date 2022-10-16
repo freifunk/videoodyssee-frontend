@@ -15,7 +15,6 @@ const Loader = (Component) => (props) =>
 
 
 
-// const Crypto = Loader(lazy(() => import('src/content/dashboards/Crypto')));
 
 const Transactions = Loader(
   lazy(() => import('src/content/applications/Transactions'))
@@ -23,6 +22,11 @@ const Transactions = Loader(
 
 const Form = Loader(
   lazy(() => import('src/content/applications/Form'))
+);
+
+
+const LoginForm = Loader(
+  lazy(() => import('src/content/applications/LoginForm'))
 );
 const UserProfile = Loader(
   lazy(() => import('src/content/applications/Users/profile'))
@@ -48,6 +52,10 @@ const routes = [
         element: <Form />
       },
       {
+        path: '/dashboard/login',
+        element: !localStorage.getItem("x-token")? <LoginForm /> : <Navigate to="/dashboard" />
+      },
+      {
         path: 'status',
         children: [
           {
@@ -68,24 +76,14 @@ const routes = [
   },
   {
     path: 'dashboard',
-    element: <SidebarLayout />,
+    element: localStorage.getItem("x-token") ?<SidebarLayout /> : <Navigate to="/dashboard/login" /> ,
     children: [
       {
         path: '',
-        element: <Navigate to="tasks" replace />
-      },
-    ]
-  },
-  {
-    path: 'management',
-    element: <SidebarLayout />,
-    children: [
-      {
-        path: '',
-        element: <Navigate to="transactions" replace />
+        element: <Navigate to="videos" replace />
       },
       {
-        path: 'transactions',
+        path: 'videos',
         element: <Transactions />
       },
       {

@@ -324,7 +324,7 @@ const RecentOrdersTable = () => {
                   </TableCell>
 
                   <TableCell>
-                    {cryptoOrder.status == "pending" ?
+                    {cryptoOrder.status === "pending" ?
                       <>
                         <Typography>
                           <Tooltip title="Approve Video" arrow>
@@ -354,7 +354,7 @@ const RecentOrdersTable = () => {
                         </Typography>
                       </>
 
-                      : '-------'
+                      : '---'
                     }
 
                   </TableCell>

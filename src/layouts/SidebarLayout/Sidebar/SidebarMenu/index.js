@@ -180,7 +180,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/messenger"
+                  to="/dashboard/analytics"
                   startIcon={<AnalyticsIcon />}
                 >
                   Analytics
@@ -191,7 +191,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/crypto"
+                  to="/dashboard/profile/settings"
                   startIcon={<BrightnessLowTwoToneIcon />}
                 >
                   Settings
@@ -215,7 +215,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/management/transactions"
+                  to="/dashboard/videos"
                   startIcon={<TableChartTwoToneIcon />}
                 >
                   Videos List
@@ -239,7 +239,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/management/profile/details"
+                  to="/dashboard/profile/details"
                   startIcon={<AccountCircleTwoToneIcon />}
                 >
                   User Profile
@@ -250,7 +250,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/management/profile/settings"
+                  to="/dashboard/profile/settings"
                   startIcon={<DisplaySettingsTwoToneIcon />}
                 >
                   Account Settings
