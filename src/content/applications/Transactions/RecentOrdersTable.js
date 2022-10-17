@@ -28,6 +28,17 @@ import {
 import Label from 'src/components/Label';
 import BulkActions from './BulkActions';
 
+const languages = {
+  'eng': 'English',
+  'deu': 'German',
+  'rus': 'Russian',
+  'fra': 'French',
+  'spa': 'Spanish',
+  'jpn': 'Japaneese',
+  'hin': 'Hindi',
+
+}
+
 const getStatusLabel = (cryptoOrderStatus) => {
   const map = {
     rejected: {
@@ -301,7 +312,7 @@ const RecentOrdersTable = () => {
                       {format(new Date(cryptoOrder.date), 'MMMM dd yyyy')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {cryptoOrder.language}
+                      {languages[cryptoOrder.language]}
                     </Typography>
                   </TableCell>
                   <TableCell>
