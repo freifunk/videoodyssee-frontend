@@ -16,16 +16,7 @@ import {
 import './styles.css'
 import { useState, useEffect } from 'react';
 
-const languages = {
-  'eng': 'English',
-  'deu': 'German',
-  'rus': 'Russian',
-  'fra': 'French',
-  'spa': 'Spanish',
-  'jpn': 'Japaneese',
-  'hin': 'Hindi',
 
-}
 
 const initialValues = {
   title: "",

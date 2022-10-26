@@ -1,0 +1,10 @@
+all:
+  children:
+    videoodyssee-frontend:
+      hosts:
+        videopipeline.freifunk.net:
+          domains:
+            - dashboard.videopipeline.freifunk.net
+          email: web+dashboard.videopipeline@freifunk.net
+    
+ 

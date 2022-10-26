@@ -22,7 +22,8 @@ import {
   CardHeader,
   Button,
   Snackbar,
-  Alert
+  Alert,
+  Link
 } from '@mui/material';
 
 import Label from 'src/components/Label';
@@ -306,7 +307,16 @@ const RecentOrdersTable = () => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.title}
+
+                      <Link
+                        href={cryptoOrder.url}
+                        underline="hover"
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        
+                      >
+                        {cryptoOrder.title}
+                      </Link>
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
                       {format(new Date(cryptoOrder.date), 'MMMM dd yyyy')}
@@ -356,7 +366,7 @@ const RecentOrdersTable = () => {
                             <Button
                               onClick={handleReject}
                               id={cryptoOrder.id}
-                              sx={{ margin: 1  }}
+                              sx={{ margin: 1 }}
                               size='small'
                               color='error'
                               variant="contained"

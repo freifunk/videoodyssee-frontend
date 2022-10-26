@@ -1,0 +1,50 @@
+---
+- name: install required tools
+  apt:
+    name: 
+    - npm
+    - git
+    state: latest
+    update_cache: yes
+
+
+- name: Download the REACT APP code from the GitHub
+  git:
+    repo: 'https://github.com/freifunk/videoodyssee-frontend.git'
+    dest: "/opt/videoodyssee-frontend"
+    force: yes
+
+
+- name: Copy ENV to .env file 
+  template: >
+    src=videoodyssee-fronted.env.j2 
+    dest=/opt/videoodyssee-frontend/.env
+
+- name: Install Dependencies with NPM install command
+  shell: "npm install"
+  args:
+    chdir: "/opt/videoodyssee-frontend"
+
+- name: Build the REACT application
+  shell: "npm run build"
+  args:
+    chdir: "/opt/videoodyssee-frontend"
+
+
+- name : remove previous build directory
+  shell: rm -rf /var/www/html/videoodyssee-frontend
+
+
+- name : copy build folder to public html folder
+  shell: cp -rf build /var/www/html/videoodyssee-frontend
+  args:
+    chdir: "/opt/videoodyssee-frontend"
+
+
+- name: copy htaccess file to the build folder
+  template: >
+    src=htaccess.j2 
+    dest=/var/www/html/videoodyssee-frontend/.htaccess
+
+
+
