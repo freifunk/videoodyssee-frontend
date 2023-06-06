@@ -131,7 +131,7 @@ const Form = () => {
       </Snackbar>
 
       <Paper elevation={10} className="paper">
-        <img src="/static/images/logo/logo-small.png" alt='Friefunk logo' />
+        <img src="/static/images/logo/logo-small.png" alt='Freifunk logo' />
         <h2 align='center'>Video Upload </h2>
         <p>
           <FormControl fullWidth >
