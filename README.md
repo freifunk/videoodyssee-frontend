@@ -26,6 +26,18 @@ npm test -- --coverage --watchAll=false
 npm test -- Form.test.js
 ```
 
+## 🛠️ Development Setup
+
+This project uses **EditorConfig** to maintain consistent coding standards across all editors and IDEs:
+
+- **Indentation**: 2 spaces for JS/CSS/HTML/JSON/YAML
+- **Encoding**: UTF-8
+- **Line endings**: LF (Unix-style)
+- **Trailing whitespace**: Automatically trimmed
+- **Final newline**: Automatically inserted
+
+Most modern editors support EditorConfig automatically. For others, install the appropriate plugin.
+
 ## Available Scripts
 
 In the project directory, you can run:
