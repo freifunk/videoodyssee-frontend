@@ -1,11 +1,15 @@
-import { Box } from '@mui/material';
+import React from 'react';
 
-function HeaderButtons() {
+const HeaderButtons = ({ children }) => {
   return (
-    <Box sx={{ mr: 1 }}>
-      <Box sx={{ mx: 0.5 }} component="span" />
-    </Box>
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem'
+    }}>
+      {children}
+    </div>
   );
-}
+};
 
 export default HeaderButtons;

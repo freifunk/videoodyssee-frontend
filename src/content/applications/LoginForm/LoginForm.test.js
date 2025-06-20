@@ -57,7 +57,7 @@ describe('LoginForm Component', () => {
     expect(screen.getByRole('heading', { name: /login/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
   });
 
   test('handles user input correctly', async () => {
@@ -99,7 +99,7 @@ describe('LoginForm Component', () => {
     await user.type(passwordInput, 'correctpassword');
 
     // Submit form
-    const submitButton = screen.getByRole('button', { name: /submit/i });
+    const submitButton = screen.getByRole('button', { name: /login/i });
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -141,7 +141,7 @@ describe('LoginForm Component', () => {
     await user.clear(passwordInput);
     await user.type(emailInput, 'user@example.com');
     await user.type(passwordInput, 'password');
-    await user.click(screen.getByRole('button', { name: /submit/i }));
+    await user.click(screen.getByRole('button', { name: /login/i }));
 
     // Wait for success message to appear first
     await waitFor(() => {
@@ -176,7 +176,7 @@ describe('LoginForm Component', () => {
     await user.clear(passwordInput);
     await user.type(emailInput, 'user@example.com');
     await user.type(passwordInput, 'password');
-    await user.click(screen.getByRole('button', { name: /submit/i }));
+    await user.click(screen.getByRole('button', { name: /login/i }));
 
     await waitFor(() => {
       expect(screen.getByText(/authentication successful/i)).toBeInTheDocument();
@@ -204,7 +204,7 @@ describe('LoginForm Component', () => {
     await user.clear(passwordInput);
     await user.type(emailInput, 'user@example.com');
     await user.type(passwordInput, 'wrongpassword');
-    await user.click(screen.getByRole('button', { name: /submit/i }));
+    await user.click(screen.getByRole('button', { name: /login/i }));
 
     await waitFor(() => {
       expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument();
@@ -223,7 +223,7 @@ describe('LoginForm Component', () => {
     // Fill and submit form
     await user.type(screen.getByLabelText(/email/i), 'user@example.com');
     await user.type(screen.getByLabelText(/password/i), 'password');
-    await user.click(screen.getByRole('button', { name: /submit/i }));
+    await user.click(screen.getByRole('button', { name: /login/i }));
 
     await waitFor(() => {
       expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error));
@@ -246,11 +246,12 @@ describe('LoginForm Component', () => {
     expect(passwordInput).toHaveAttribute('type', 'password');
   });
 
-  test('form has proper structure with Paper component', () => {
+  test('form has proper structure', () => {
     render(<LoginForm />);
     
-    // Check for the paper container and form structure
-    expect(screen.getByRole('heading', { name: /login/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
+    // Check form structure
+    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+    expect(screen.getByLabelText(/email/i)).toHaveAttribute('required');
+    expect(screen.getByLabelText(/password/i)).toHaveAttribute('required');
   });
 }); 

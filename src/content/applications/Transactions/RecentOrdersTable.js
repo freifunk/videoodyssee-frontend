@@ -1,33 +1,4 @@
-import { useState, useEffect } from 'react';
-import { format } from 'date-fns';
-
-import PropTypes from 'prop-types';
-import {
-  Tooltip,
-  Divider,
-  Box,
-  FormControl,
-  InputLabel,
-  Card,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TableContainer,
-  Select,
-  MenuItem,
-  Typography,
-  CardHeader,
-  Button,
-  Snackbar,
-  Alert,
-  Link
-} from '@mui/material';
-
-import Label from 'src/components/Label';
-import BulkActions from './BulkActions';
+import React, { useState } from 'react';
 
 const languages = {
   'eng': 'English',
@@ -35,31 +6,31 @@ const languages = {
   'rus': 'Russian',
   'fra': 'French',
   'spa': 'Spanish',
-  'jpn': 'Japaneese',
+  'jpn': 'Japanese',
   'hin': 'Hindi',
-
 }
 
-const getStatusLabel = (cryptoOrderStatus) => {
+const getStatusLabel = (videoStatus) => {
   const map = {
-    rejected: {
-      text: 'Rejected',
-      color: 'error'
-    },
-    approved: {
-      text: 'Approved',
-      color: 'success'
-    },
-    pending: {
-      text: 'Pending',
-      color: 'warning'
-    }
+    failed: { text: 'Failed', color: '#dc3545' },
+    completed: { text: 'Completed', color: '#28a745' },
+    pending: { text: 'Pending', color: '#ffc107' }
   };
 
-  const { text, color } = map[cryptoOrderStatus];
+  const { text, color } = map[videoStatus];
 
-
-  return <Label color={color}>{text}</Label>;
+  return (
+    <span style={{
+      backgroundColor: color,
+      color: 'white',
+      padding: '0.25rem 0.5rem',
+      borderRadius: '4px',
+      fontSize: '0.875rem',
+      fontWeight: '500'
+    }}>
+      {text}
+    </span>
+  );
 };
 
 const applyFilters = (videos, filters) => {
@@ -79,333 +50,147 @@ const applyPagination = (videos, page, limit) => {
 };
 
 const RecentOrdersTable = () => {
-  const [selectedCryptoOrders] = useState([]);
-  const selectedBulkActions = selectedCryptoOrders.length > 0;
-  const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(5);
-  const [filters, setFilters] = useState({
-    status: null
-  });
-
-  const [err, setErr] = useState({ err: false, message: '' });
-  const [success, setSuccess] = useState({ success: false, message: '' });
-  const [videos, setVideos] = useState([]);
-
-  const statusOptions = [
+  const [videos] = useState([
     {
-      id: 'all',
-      name: 'All'
+      id: '1',
+      title: 'Introduction to React',
+      conference: 'React Conf 2023',
+      status: 'completed',
+      createdAt: new Date().getTime() - 86400000
     },
     {
-      id: 'approved',
-      name: 'Approved'
+      id: '2', 
+      title: 'Advanced JavaScript Patterns',
+      conference: 'JS Summit 2023',
+      status: 'pending',
+      createdAt: new Date().getTime() - 172800000
     },
     {
-      id: 'pending',
-      name: 'Pending'
-    },
-    {
-      id: 'rejected',
-      name: 'Rejected'
+      id: '3',
+      title: 'Building Scalable APIs',
+      conference: 'API World 2023', 
+      status: 'failed',
+      createdAt: new Date().getTime() - 259200000
     }
-  ];
+  ]);
 
-  const handleApprove = async (event) => {
-    console.log(event.currentTarget.id);
-    event.preventDefault();
-    try {
-      let res = await fetch(`${process.env.REACT_APP_API_URL}/video/approve`, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: "POST",
-        body: JSON.stringify({
-          id: event.currentTarget.id
-        }),
-      });
-      let resJson = await res.json();
-      console.log(resJson);
-      if (res.status === 202) {
+  const [selectedVideos, setSelectedVideos] = useState([]);
 
-        setSuccess({ success: true, message: resJson.data })
-      } else {
-        setErr({ err: "true", message: resJson.message });
-        console.log(err, "got error");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-
-  const handleReject = async (event) => {
-    console.log(event.currentTarget.id);
-    event.preventDefault();
-    try {
-      let res = await fetch(`${process.env.REACT_APP_API_URL}/video/reject`, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: "POST",
-        body: JSON.stringify({
-          id: event.currentTarget.id
-        }),
-      });
-      let resJson = await res.json();
-      console.log(resJson);
-      if (res.status === 200) {
-
-        setSuccess({ success: true, message: resJson.data })
-        console.log(err, success);
-      } else {
-        setErr({ err: "true", message: resJson.message });
-        console.log(err, "got error");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-
-  const handleStatusChange = (e) => {
-    let value = null;
-
-    if (e.target.value !== 'all') {
-      value = e.target.value;
-    }
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      status: value
-    }));
+  const handleSelectAllVideos = (event) => {
+    setSelectedVideos(event.target.checked ? videos.map(video => video.id) : []);
   };
 
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleLimitChange = (event) => {
-    setLimit(parseInt(event.target.value));
-  };
-
-
-
-  const filteredCryptoOrders = applyFilters(videos, filters);
-  const paginatedCryptoOrders = applyPagination(
-    filteredCryptoOrders,
-    page,
-    limit
-  );
-
-  useEffect(() => {
-    const getVideos = async () => {
-      try {
-        let res = await fetch(`${process.env.REACT_APP_API_URL}/video/list`, {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          method: "POST",
-          body: JSON.stringify({}),
-        })
-        let resJson = await res.json();
-        setVideos(resJson.data)
-      }
-      catch (err) {
-        console.log(err);
-      }
+  const handleSelectOneVideo = (event, videoId) => {
+    if (!selectedVideos.includes(videoId)) {
+      setSelectedVideos([...selectedVideos, videoId]);
+    } else {
+      setSelectedVideos(selectedVideos.filter(id => id !== videoId));
     }
-    getVideos();
+  };
 
-  }, [success])
+  const selectedSomeVideos = selectedVideos.length > 0 && selectedVideos.length < videos.length;
+  const selectedAllVideos = selectedVideos.length === videos.length;
 
   return (
-
-
-    <Card>
-
-      <Snackbar
-        open={success.success}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        autoHideDuration={6000}
-        onClose={() => setSuccess({ success: false })}
-      >
-        <Alert onClose={() => setSuccess({ success: false })} severity="success" sx={{ width: '100%' }}>
-          {success.message}
-        </Alert>
-      </Snackbar>
-
-      <Snackbar
-        open={err.err}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        autoHideDuration={6000}
-        onClose={() => setErr({ err: false })}
-      >
-        <Alert onClose={() => setErr({ err: false })} severity="error" sx={{ width: '100%' }}>
-          {err.message}
-        </Alert>
-      </Snackbar>
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
-          <BulkActions />
-        </Box>
-      )}
-      {!selectedBulkActions && (
-        <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select
-                  value={filters.status || 'all'}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
-          title="Recent Videos"
-        />
-      )}
-      <Divider />
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Video Name</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell >Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedCryptoOrders.map((cryptoOrder) => {
-              const isCryptoOrderSelected = selectedCryptoOrders.includes(
-                cryptoOrder.id
-              );
-              return (
-                <TableRow
-                  hover
-                  key={cryptoOrder.id}
-                  selected={isCryptoOrderSelected}
-                >
-
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-
-                      <Link
-                        href={cryptoOrder.url}
-                        underline="hover"
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        
-                      >
-                        {cryptoOrder.title}
-                      </Link>
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(new Date(cryptoOrder.date), 'MMMM dd yyyy')}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {languages[cryptoOrder.language]}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {cryptoOrder.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {cryptoOrder.email}
-                    </Typography>
-                  </TableCell>
-
-                  <TableCell>
-                    {getStatusLabel(cryptoOrder.status)}
-                  </TableCell>
-
-                  <TableCell>
-                    {cryptoOrder.status === "pending" ?
-                      <>
-                        <Typography>
-                          <Tooltip title="Approve Video" arrow>
-                            <Button
-                              onClick={handleApprove}
-                              id={cryptoOrder.id}
-                              sx={{ margin: 1 }}
-                              size='small'
-                              color='success'
-                              variant="contained"
-
-                            >Approve
-                            </Button>
-                          </Tooltip>
-                        </Typography>
-                        <Typography>
-                          <Tooltip title="Reject Video" arrow>
-                            <Button
-                              onClick={handleReject}
-                              id={cryptoOrder.id}
-                              sx={{ margin: 1 }}
-                              size='small'
-                              color='error'
-                              variant="contained"
-                            >Reject </Button>
-                          </Tooltip>
-                        </Typography>
-                      </>
-
-                      : '---'
-                    }
-
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Box p={2}>
-        <TablePagination
-          component="div"
-          count={filteredCryptoOrders.length}
-          onPageChange={handlePageChange}
-          onRowsPerPageChange={handleLimitChange}
-          page={page}
-          rowsPerPage={limit}
-          rowsPerPageOptions={[5, 10, 25, 30]}
-        />
-      </Box>
-    </Card>
+    <div style={{
+      backgroundColor: 'white',
+      borderRadius: '8px',
+      overflow: 'hidden',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead style={{ backgroundColor: '#f8f9fa' }}>
+          <tr>
+            <th style={{ padding: '1rem', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>
+              <input
+                type="checkbox"
+                checked={selectedAllVideos}
+                onChange={handleSelectAllVideos}
+                ref={input => {
+                  if (input) input.indeterminate = selectedSomeVideos;
+                }}
+              />
+            </th>
+            <th style={{ padding: '1rem', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>
+              Title
+            </th>
+            <th style={{ padding: '1rem', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>
+              Conference
+            </th>
+            <th style={{ padding: '1rem', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>
+              Status
+            </th>
+            <th style={{ padding: '1rem', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>
+              Date
+            </th>
+            <th style={{ padding: '1rem', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {videos.map((video) => {
+            const isVideoSelected = selectedVideos.includes(video.id);
+            return (
+              <tr 
+                key={video.id}
+                style={{ 
+                  backgroundColor: isVideoSelected ? '#f0f8ff' : 'transparent',
+                  borderBottom: '1px solid #dee2e6'
+                }}
+              >
+                <td style={{ padding: '1rem' }}>
+                  <input
+                    type="checkbox"
+                    checked={isVideoSelected}
+                    onChange={(event) => handleSelectOneVideo(event, video.id)}
+                  />
+                </td>
+                <td style={{ padding: '1rem', fontWeight: '500' }}>
+                  {video.title}
+                </td>
+                <td style={{ padding: '1rem', color: '#666' }}>
+                  {video.conference}
+                </td>
+                <td style={{ padding: '1rem' }}>
+                  {getStatusLabel(video.status)}
+                </td>
+                <td style={{ padding: '1rem', color: '#666' }}>
+                  {new Date(video.createdAt).toLocaleDateString()}
+                </td>
+                <td style={{ padding: '1rem' }}>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <button style={{
+                      padding: '0.25rem 0.5rem',
+                      backgroundColor: '#007bff',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '0.875rem'
+                    }}>
+                      Edit
+                    </button>
+                    <button style={{
+                      padding: '0.25rem 0.5rem',
+                      backgroundColor: '#dc3545',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '0.875rem'
+                    }}>
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
-};
-
-RecentOrdersTable.propTypes = {
-  videos: PropTypes.array.isRequired
-};
-
-RecentOrdersTable.defaultProps = {
-  videos: []
 };
 
 export default RecentOrdersTable;

@@ -1,21 +1,32 @@
-import { Typography } from '@mui/material';
+import React from 'react';
 
-function PageHeader() {
-  const user = {
-    name: 'Andi Braeu',
-    avatar: '/static/images/avatars/1.jpg'
-  };
-
+const PageHeader = () => {
   return (
-    <>
-      <Typography variant="h3" component="h3" gutterBottom>
-        User Settings
-      </Typography>
-      <Typography variant="subtitle2">
-        {user.name}, this could be your user settings panel.
-      </Typography>
-    </>
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: '2rem'
+    }}>
+      <div>
+        <h1 style={{ 
+          fontSize: '2rem', 
+          fontWeight: 'bold', 
+          margin: '0 0 0.5rem 0',
+          color: '#333'
+        }}>
+          User Settings
+        </h1>
+        <p style={{ 
+          margin: 0, 
+          color: '#666',
+          fontSize: '1rem'
+        }}>
+          Configure your account settings and preferences
+        </p>
+      </div>
+    </div>
   );
-}
+};
 
 export default PageHeader;

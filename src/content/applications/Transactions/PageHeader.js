@@ -1,23 +1,32 @@
-import { Typography, Grid } from '@mui/material';
+import React from 'react';
 
-
-function PageHeader() {
-  const user = {
-    name: 'Andi Braeu',
-    avatar: '/static/images/avatars/1.jpg'
-  };
+const PageHeader = () => {
   return (
-    <Grid container justifyContent="space-between" alignItems="center">
-      <Grid item>
-        <Typography variant="h3" component="h3" gutterBottom>
-          Videos
-        </Typography>
-        <Typography variant="subtitle2">
-          {user.name}, these are your recent videos
-        </Typography>
-      </Grid>
-    </Grid>
+    <div style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: '2rem'
+    }}>
+      <div>
+        <h1 style={{
+          fontSize: '2rem',
+          fontWeight: 'bold',
+          margin: '0 0 0.5rem 0',
+          color: '#333'
+        }}>
+          Recent Transactions
+        </h1>
+        <p style={{
+          margin: 0,
+          color: '#666',
+          fontSize: '1rem'
+        }}>
+          All aspects related to the app transactions can be managed from this page
+        </p>
+      </div>
+    </div>
   );
-}
+};
 
 export default PageHeader;

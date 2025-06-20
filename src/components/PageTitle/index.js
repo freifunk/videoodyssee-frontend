@@ -1,41 +1,27 @@
-import PropTypes from 'prop-types';
-import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import { Typography, Button, Grid } from '@mui/material';
+import React from 'react';
 
-const PageTitle = ({ heading = '', subHeading = '', docs = '', ...rest }) => {
+const PageTitle = ({ heading, subHeading, ...rest }) => {
   return (
-    <Grid
-      container
-      justifyContent="space-between"
-      alignItems="center"
-      {...rest}
-    >
-      <Grid item>
-        <Typography variant="h3" component="h3" gutterBottom>
-          {heading}
-        </Typography>
-        <Typography variant="subtitle2">{subHeading}</Typography>
-      </Grid>
-      <Grid item>
-        <Button
-          href={docs}
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={{ mt: { xs: 2, md: 0 } }}
-          variant="contained"
-          startIcon={<AddTwoToneIcon fontSize="small" />}
-        >
-          {heading} Documentation
-        </Button>
-      </Grid>
-    </Grid>
+    <div {...rest} style={{ marginBottom: '2rem', ...rest.style }}>
+      <h1 style={{
+        fontSize: '2rem',
+        fontWeight: 'bold',
+        margin: '0 0 0.5rem 0',
+        color: '#333'
+      }}>
+        {heading}
+      </h1>
+      {subHeading && (
+        <p style={{
+          margin: 0,
+          color: '#666',
+          fontSize: '1rem'
+        }}>
+          {subHeading}
+        </p>
+      )}
+    </div>
   );
-};
-
-PageTitle.propTypes = {
-  heading: PropTypes.string,
-  subHeading: PropTypes.string,
-  docs: PropTypes.string
 };
 
 export default PageTitle;

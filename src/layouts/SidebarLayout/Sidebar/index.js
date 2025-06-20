@@ -1,120 +1,41 @@
-import { useContext } from 'react';
-import Scrollbar from 'src/components/Scrollbar';
-import { SidebarContext } from 'src/contexts/SidebarContext';
-
-import {
-  Box,
-  Drawer,
-  alpha,
-  styled,
-  Divider,
-  useTheme,
-  lighten,
-  darken
-} from '@mui/material';
-
+import React from 'react';
 import SidebarMenu from './SidebarMenu';
-import logo from './logo.png'
+import Scrollbar from 'src/components/Scrollbar';
 
-const SidebarWrapper = styled(Box)(
-  ({ theme }) => `
-        width: ${theme.sidebar.width};
-        min-width: ${theme.sidebar.width};
-        color: ${theme.colors.alpha.trueWhite[70]};
-        position: relative;
-        z-index: 7;
-        height: 100%;
-        padding-bottom: 68px;
-`
-);
-
-function Sidebar() {
-  const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
-  const closeSidebar = () => toggleSidebar();
-  const theme = useTheme();
-
+const Sidebar = () => {
   return (
-    <>
-      <SidebarWrapper
-        sx={{
-          display: {
-            xs: 'none',
-            lg: 'inline-block'
-          },
-          position: 'fixed',
-          left: 0,
-          top: 0,
-          background:
-            theme.palette.mode === 'dark'
-              ? alpha(lighten(theme.header.background, 0.1), 0.5)
-              : darken(theme.colors.alpha.black[100], 0.5),
-          boxShadow:
-            theme.palette.mode === 'dark' ? theme.sidebar.boxShadow : 'none'
-        }}
-      >
-        <Scrollbar>
-          <Box mt={3}>
-            <Box
-              mx={2}
-              sx={{
-                width: 52
-              }}
-            >
-              <img src={logo} alt="Logo" height={35}/>
-            </Box>
-          </Box>
-          <Divider
-            sx={{
-              mt: theme.spacing(3),
-              mx: theme.spacing(2),
-              background: theme.colors.alpha.trueWhite[10]
-            }}
-          />
+    <aside style={{
+      width: '280px',
+      backgroundColor: '#f8f9fa',
+      borderRight: '1px solid #dee2e6',
+      height: '100vh',
+      position: 'fixed',
+      left: 0,
+      top: 0,
+      zIndex: 999
+    }}>
+      <div style={{
+        padding: '1rem',
+        borderBottom: '1px solid #dee2e6',
+        backgroundColor: 'white'
+      }}>
+        <h2 style={{
+          margin: 0,
+          fontSize: '1.5rem',
+          fontWeight: 'bold',
+          color: '#007bff'
+        }}>
+          Videoodyssee
+        </h2>
+      </div>
+      
+      <Scrollbar style={{ height: 'calc(100vh - 80px)' }}>
+        <div style={{ padding: '1rem' }}>
           <SidebarMenu />
-        </Scrollbar>     
-      </SidebarWrapper>
-      <Drawer
-        sx={{
-          boxShadow: `${theme.sidebar.boxShadow}`
-        }}
-        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-        open={sidebarToggle}
-        onClose={closeSidebar}
-        variant="temporary"
-        elevation={9}
-      >
-        <SidebarWrapper
-          sx={{
-            background:
-              theme.palette.mode === 'dark'
-                ? theme.colors.alpha.white[100]
-                : darken(theme.colors.alpha.black[100], 0.5)
-          }}
-        >
-          <Scrollbar>
-            <Box mt={3}>
-              <Box
-                mx={2}
-                sx={{
-                  width: 52
-                }}
-              >
-                <img src={logo} alt="Logo" />
-              </Box>
-            </Box>
-            <Divider
-              sx={{
-                mt: theme.spacing(3),
-                mx: theme.spacing(2),
-                background: theme.colors.alpha.trueWhite[10]
-              }}
-            />
-            <SidebarMenu />
-          </Scrollbar>
-        </SidebarWrapper>
-      </Drawer>
-    </>
+        </div>
+      </Scrollbar>
+    </aside>
   );
-}
+};
 
 export default Sidebar;

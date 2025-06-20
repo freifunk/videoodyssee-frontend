@@ -1,93 +1,74 @@
-import { useState, useRef } from 'react';
+import React, { useState } from 'react';
 
-import {
-  Box,
-  Menu,
-  IconButton,
-  Button,
-  ListItemText,
-  ListItem,
-  List,
-  Typography
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
-
-const ButtonError = styled(Button)(
-  ({ theme }) => `
-     background: ${theme.colors.error.main};
-     color: ${theme.palette.error.contrastText};
-
-     &:hover {
-        background: ${theme.colors.error.dark};
-     }
-    `
-);
-
-function BulkActions() {
-  const [onMenuOpen, menuOpen] = useState(false);
-  const moreRef = useRef(null);
-
-  const openMenu = () => {
-    menuOpen(true);
-  };
-
-  const closeMenu = () => {
-    menuOpen(false);
-  };
+const BulkActions = () => {
+  const [onMenuOpen, setOnMenuOpen] = useState(false);
 
   return (
-    <>
-      <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Box display="flex" alignItems="center">
-          <Typography variant="h5" color="text.secondary">
-            Bulk actions:
-          </Typography>
-          <ButtonError
-            sx={{ ml: 1 }}
-            startIcon={<DeleteTwoToneIcon />}
-            variant="contained"
-          >
-            Delete
-          </ButtonError>
-        </Box>
-        <IconButton
-          color="primary"
-          onClick={openMenu}
-          ref={moreRef}
-          sx={{ ml: 2, p: 1 }}
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: '1rem',
+      padding: '1rem',
+      backgroundColor: '#f8f9fa',
+      borderRadius: '4px',
+      marginBottom: '1rem'
+    }}>
+      <span style={{ color: '#666' }}>
+        Bulk actions:
+      </span>
+      <div style={{ position: 'relative' }}>
+        <button
+          style={{
+            padding: '0.5rem 1rem',
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+          onClick={() => setOnMenuOpen(!onMenuOpen)}
         >
-          <MoreVertTwoToneIcon />
-        </IconButton>
-      </Box>
-
-      <Menu
-        keepMounted
-        anchorEl={moreRef.current}
-        open={onMenuOpen}
-        onClose={closeMenu}
-        anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center'
-        }}
-        transformOrigin={{
-          vertical: 'center',
-          horizontal: 'center'
-        }}
-      >
-        <List sx={{ p: 1 }} component="nav">
-          <ListItem button>
-            <ListItemText primary="Bulk delete selected" />
-          </ListItem>
-          <ListItem button>
-            <ListItemText primary="Bulk edit selected" />
-          </ListItem>
-        </List>
-      </Menu>
-    </>
+          Actions
+        </button>
+        {onMenuOpen && (
+          <div style={{
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            backgroundColor: 'white',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+            zIndex: 1000,
+            minWidth: '150px'
+          }}>
+            <button style={{
+              display: 'block',
+              width: '100%',
+              padding: '0.5rem 1rem',
+              border: 'none',
+              backgroundColor: 'transparent',
+              textAlign: 'left',
+              cursor: 'pointer'
+            }}>
+              Delete
+            </button>
+            <button style={{
+              display: 'block',
+              width: '100%',
+              padding: '0.5rem 1rem',
+              border: 'none',
+              backgroundColor: 'transparent',
+              textAlign: 'left',
+              cursor: 'pointer'
+            }}>
+              Edit
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
   );
-}
+};
 
 export default BulkActions;
