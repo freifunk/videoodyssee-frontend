@@ -1,6 +1,30 @@
-# Getting Started with Create React App
+# Videoodyssee Frontend
+
+[![Deploy](https://github.com/abraeu/videoodyssee-frontend/actions/workflows/master_deploy.yml/badge.svg)](https://github.com/abraeu/videoodyssee-frontend/actions/workflows/master_deploy.yml)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## 🧪 Testing
+
+This project follows **test-driven development (TDD)** practices with comprehensive test coverage:
+
+- ✅ **33 tests** covering all major components
+- ✅ **Form Component**: Complete form functionality, API integration, validation
+- ✅ **LoginForm Component**: Authentication, token handling, error management
+- ✅ **Automated testing** in CI/CD pipeline
+
+### Running Tests
+
+```bash
+# Run tests in watch mode
+npm test
+
+# Run tests with coverage
+npm test -- --coverage --watchAll=false
+
+# Run specific test file
+npm test -- Form.test.js
+```
 
 ## Available Scripts
 

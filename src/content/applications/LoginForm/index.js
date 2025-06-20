@@ -99,36 +99,36 @@ const Form = () => {
             <Paper elevation={10} className="paper">
                 {/* <img src="/static/images/logo/logo-small.png" alt='Friefunk logo'/> */}
                 <h2 align='center'>Login</h2>
-                <p>
+                <div>
                     <FormControl fullWidth >
                         <TextField
                             value={values.email}
                             type="email"
                             name="email"
                             onChange={handleInputChange}
-                            id="outlined-basic"
+                            id="email-input"
                             label="Email"
                             variant="outlined"
                             size='small'
                             autoFocus
                         />
                     </FormControl>
-                </p>
-                <p>
+                </div>
+                <div>
                     <FormControl fullWidth >
                         <TextField
                             value={values.password}
                             type="password"
                             name="password"
                             onChange={handleInputChange}
-                            id="outlined-basic"
+                            id="password-input"
                             label="Password"
                             variant="outlined"
                             size='small'
                         />
 
                     </FormControl>
-                </p>
+                </div>
 
 
                 <FormControl fullWidth >
