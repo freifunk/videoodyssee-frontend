@@ -495,10 +495,10 @@ describe('Form Component', () => {
     render(<Form />);
 
     await waitFor(() => {
-      expect(screen.getByAltText(/friefunk logo/i)).toBeInTheDocument();
+      expect(screen.getByAltText(/freifunk logo/i)).toBeInTheDocument();
     });
     
-    const logoImage = screen.getByAltText(/friefunk logo/i);
+    const logoImage = screen.getByAltText(/freifunk logo/i);
     expect(logoImage).toHaveAttribute('src', '/static/images/logo/logo-small.png');
   });
 
