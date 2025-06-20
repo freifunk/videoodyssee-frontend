@@ -93,7 +93,9 @@ const Form = () => {
         })
         let resJson = await res.json();
         setConferences(resJson.conferences);
-        setValues({ ...values, conference: resJson.conferences[0].acronym });
+        if (resJson.conferences && resJson.conferences.length > 0) {
+          setValues(prevValues => ({ ...prevValues, conference: resJson.conferences[0].acronym }));
+        }
       }
       catch (err) {
         console.log(err);
@@ -133,36 +135,36 @@ const Form = () => {
       <Paper elevation={10} className="paper">
         <img src="/static/images/logo/logo-small.png" alt='Freifunk logo' />
         <h2 align='center'>Video Upload </h2>
-        <p>
+        <div>
           <FormControl fullWidth >
             <TextField
               value={values.title}
               name="title"
               onChange={handleInputChange}
-              id="outlined-basic"
+              id="title-input"
               label="Title"
               variant="outlined"
               size='small'
               autoFocus
             />
           </FormControl>
-        </p>
-        <p>
+        </div>
+        <div>
           <FormControl fullWidth >
             <TextField
               value={values.subtitle}
               name="subtitle"
               onChange={handleInputChange}
-              id="outlined-basic"
+              id="subtitle-input"
               label="Subtitle"
               variant="outlined"
               size='small'
             />
 
           </FormControl>
-        </p>
+        </div>
 
-        <p>
+        <div>
           <FormControl fullWidth >
             <Autocomplete
 
@@ -175,9 +177,9 @@ const Form = () => {
               renderInput={(params) => <TextField {...params} label="Persons" />}
             />
           </FormControl>
-        </p>
+        </div>
 
-        <p>
+        <div>
           <FormControl fullWidth >
             <Autocomplete
 
@@ -190,9 +192,9 @@ const Form = () => {
               renderInput={(params) => <TextField {...params} label="Tags" />}
             />
           </FormControl>
-        </p>
+        </div>
 
-        <p>
+        <div>
           <FormControl fullWidth >
             <InputLabel id="event-select-label">Conference</InputLabel>
             <Select
@@ -204,12 +206,14 @@ const Form = () => {
               label="Conference"
               size='small'
             >
-              {conferences.map(({ acronym, title }, index) => <MenuItem value={acronym}>{title}</MenuItem>)}
+              {conferences.map(({ acronym, title }, index) => (
+                <MenuItem key={acronym} value={acronym}>{title}</MenuItem>
+              ))}
             </Select>
           </FormControl>
-        </p>
+        </div>
 
-        <p>
+        <div>
           <FormControl fullWidth >
             <InputLabel id="lang-select-label">Language</InputLabel>
             <Select
@@ -232,15 +236,15 @@ const Form = () => {
 
             </Select>
           </FormControl>
-        </p>
+        </div>
 
-        <p>
+        <div>
           <FormControl fullWidth >
             <TextField
               value={values.date}
               name="date"
               onChange={handleInputChange}
-              id="date"
+              id="date-input"
               label="Date"
               type="date"
               size='small'
@@ -248,77 +252,77 @@ const Form = () => {
             />
           </FormControl>
 
-        </p>
+        </div>
 
-        <p>
+        <div>
           <FormControl fullWidth >
             <TextField
               value={values.url}
               onChange={handleInputChange}
               name="url"
-              id="url"
+              id="url-input"
               label="Video URL"
               type='url'
               size='small'
             />
           </FormControl>
-        </p>
+        </div>
 
-        <p>
+        <div>
           <FormControl fullWidth >
             <TextField
               value={values.name}
               onChange={handleInputChange}
               name="name"
-              id="name"
+              id="name-input"
               label="Name"
               size='small'
             />
           </FormControl>
-        </p>
+        </div>
 
 
-        <p>
+        <div>
           <FormControl fullWidth >
             <TextField
               value={values.email}
               onChange={handleInputChange}
               name="email"
-              id="email"
+              id="email-input"
               label="Email"
               type="email"
               size='small'
             />
           </FormControl>
-        </p>
+        </div>
 
-        <p>
+        <div>
           <FormControl fullWidth >
             <TextField
               value={values.link}
               onChange={handleInputChange}
               name="link"
-              id="link"
+              id="link-input"
               label="Link"
 
               size='small'
             />
           </FormControl>
-        </p>
+        </div>
 
-        <p>
+        <div>
           <FormControl fullWidth >
             <TextField
               value={values.description}
               onChange={handleInputChange}
               name="description"
-              id="description"
+              id="description-input"
               label="Description"
               size='small'
               multiline
             />
           </FormControl>
-        </p>
+        </div>
         <FormControl fullWidth >
           <Button variant="contained" onClick={handleSubmit}>
             Submit
