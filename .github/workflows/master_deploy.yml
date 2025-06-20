@@ -2,8 +2,9 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - "main"
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   test-and-deploy:
@@ -32,6 +33,7 @@ jobs:
           CI: false
       
       - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
           branch: gh-pages
