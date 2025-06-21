@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import ScheduleImport from '../../../components/ScheduleImport';
 
 const initialValues = {
   title: "",
@@ -27,6 +28,54 @@ const Form = () => {
       ...values,
       [name]: value,
     });
+  };
+
+  const handleTalkSelect = (talkData) => {
+    // Convert comma-separated strings to arrays for persons and tags
+    const personsArray = talkData.persons 
+      ? talkData.persons.split(',').map(p => p.trim()).filter(p => p)
+      : [];
+    
+    const tagsArray = talkData.tags 
+      ? talkData.tags.split(',').map(t => t.trim()).filter(t => t)
+      : [];
+
+    // Format date from ISO string to YYYY-MM-DD
+    let formattedDate = values.date; // Keep current date as default
+    if (talkData.date) {
+      try {
+        const date = new Date(talkData.date);
+        if (!isNaN(date.getTime())) {
+          formattedDate = date.toISOString().split('T')[0];
+        }
+      } catch (e) {
+        console.log('Date parsing error:', e);
+      }
+    }
+
+    setValues({
+      ...values,
+      title: talkData.title || values.title,
+      subtitle: talkData.subtitle || values.subtitle,
+      persons: personsArray.length > 0 ? personsArray : values.persons,
+      tags: tagsArray.length > 0 ? tagsArray : values.tags,
+      description: talkData.description || values.description,
+      date: formattedDate,
+      link: talkData.originalUrl || values.link,
+      // Keep existing values for fields not provided by talk data
+      conference: values.conference,
+      language: values.language,
+      url: values.url,
+      name: values.name,
+      email: values.email
+    });
+
+    // Show success message
+    setSuccess({ 
+      success: true, 
+      message: `Talk "${talkData.title}" wurde erfolgreich importiert!` 
+    });
+    setTimeout(() => setSuccess({ success: false, message: '' }), 5000);
   };
 
   const handleSubmit = async (event) => {
@@ -84,6 +133,9 @@ const Form = () => {
     <div className="form-container">
       <img src="/static/images/logo/logo-small.png" alt='Freifunk logo' className="logo" />
       <h2 className="form-title">Video Upload</h2>
+      
+      {/* Schedule Import Component */}
+      <ScheduleImport onTalkSelect={handleTalkSelect} />
       
       {success.success && (
         <div className="alert alert-success">
