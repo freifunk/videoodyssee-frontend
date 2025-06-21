@@ -9,11 +9,13 @@ const Transactions = () => {
       try {
         const token = localStorage.getItem('x-token');
         const res = await fetch(`${process.env.REACT_APP_API_URL}/video/list`, {
+          method: "POST",
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
-          }
+          },
+          body: JSON.stringify({})
         });
         const resJson = await res.json();
         setVideos(resJson.data || []);
