@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy to Server
 
 on:
   push:
@@ -31,11 +31,22 @@ jobs:
         run: npm run build
         env:
           CI: false
-      
-      - name: Deploy to GitHub Pages
+
+      - name: Create .env file
         if: github.ref == 'refs/heads/main'
-        uses: JamesIves/github-pages-deploy-action@v4.7.3
+        run: |
+          echo "REACT_APP_API_URL=${{ vars.REACT_APP_API_URL }}" > .env
+          echo "REACT_APP_VOCTOWEB_API_URL=${{ vars.REACT_APP_VOCTOWEB_API_URL }}" >> .env
+      
+      - name: Deploy to Server via SCP
+        if: github.ref == 'refs/heads/main'
+        uses: appleboy/scp-action@v0.1.7
         with:
-          branch: gh-pages
-          folder: build
-          clean: true
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || 22 }}
+          source: "build/*,.env"
+          target: ${{ secrets.DEPLOY_PATH }}
+          strip_components: 1
+          overwrite: true
