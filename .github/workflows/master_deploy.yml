@@ -27,16 +27,16 @@ jobs:
         env:
           CI: true
 
+      - name: Create .env file
+        if: github.ref == 'refs/heads/main'
+        run: |
+            echo "REACT_APP_API_URL=${{ vars.REACT_APP_API_URL }}" > .env
+            echo "REACT_APP_VOCTOWEB_API_URL=${{ vars.REACT_APP_VOCTOWEB_API_URL }}" >> .env
+
       - name: Build application
         run: npm run build
         env:
           CI: false
-
-      - name: Create .env file
-        if: github.ref == 'refs/heads/main'
-        run: |
-          echo "REACT_APP_API_URL=${{ vars.REACT_APP_API_URL }}" > .env
-          echo "REACT_APP_VOCTOWEB_API_URL=${{ vars.REACT_APP_VOCTOWEB_API_URL }}" >> .env
       
       - name: Deploy to Server via SCP
         if: github.ref == 'refs/heads/main'
