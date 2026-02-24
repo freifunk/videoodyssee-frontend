@@ -4,7 +4,7 @@
   "title": "Videoodysee",
   "private": true,
   "dependencies": {
-    "date-fns": "^2.28.0",
+    "date-fns": "^4.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router": "^7.0.0",
